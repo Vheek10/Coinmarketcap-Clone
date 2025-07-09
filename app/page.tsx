@@ -24,7 +24,15 @@ async function getCoins(page: number, pageSize: number): Promise<Coin[]> {
 		`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${pageSize}&page=${page}&sparkline=true&price_change_percentage=24h`,
 		{ next: { revalidate: 60 } },
 	);
-	if (!res.ok) throw new Error("Failed to fetch coins");
+
+	if (!res.ok) {
+		const text = await res.text();
+		if (text.includes("Throttled")) {
+			throw new Error("API rate limit reached. Please try again later.");
+		}
+		throw new Error("Failed to fetch coins");
+	}
+
 	return res.json();
 }
 

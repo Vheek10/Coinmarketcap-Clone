@@ -66,7 +66,7 @@ export default function CoinList({ coins }: { coins: Coin[] }) {
 
 								<td>
 									<Link
-										href={`/coins/${id}`}
+										href={`/coins/${coin.id}`}
 										className="flex items-center gap-3 font-medium hover:underline">
 										<Image
 											src={image}

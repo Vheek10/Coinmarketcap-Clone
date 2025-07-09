@@ -1,29 +1,44 @@
 /** @format */
 
-"use client";
+import Image from "next/image";
 
-import React from "react";
-
-const trendingDex = [
-	{ name: "SERAPH", price: "$0.1968", change: "0.88%" },
-	{ name: "CARV", price: "$0.254", change: "2.04%" },
-	{ name: "Circle", price: "$5.04", change: "31240%" },
-	{ name: "ROAM", price: "$0.1199", change: "0.1%" },
-	{ name: "BULLA", price: "$0.0589", change: "7.4%" },
-];
-
-export default function DexScreenerTrending() {
+export default function DexScreenerTrending({ tokens }: { tokens: any[] }) {
 	return (
-		<div className="bg-base-100 p-4 rounded-lg shadow w-full h-full">
-			<h2 className="font-semibold text-lg mb-3">📊 DexScan Trending</h2>
-			<ul className="space-y-2 text-sm">
-				{trendingDex.map((token, i) => (
+		<div className="bg-base-200 rounded-lg p-4 shadow-md">
+			<h2 className="text-lg font-semibold mb-4">🧪 DexScreener Trending</h2>
+			<ul className="space-y-3">
+				{tokens.map((token: any) => (
 					<li
-						key={i}
-						className="flex justify-between">
-						<span>{token.name}</span>
-						<span className="font-medium">{token.price}</span>
-						<span className="text-green-500">{token.change}</span>
+						key={token.pairAddress}
+						className="flex justify-between items-center">
+						<div className="flex gap-3 items-center">
+							<Image
+								src={token.token0.logoURI || "/token.png"}
+								alt={token.token0.symbol}
+								width={28}
+								height={28}
+								className="rounded-full"
+							/>
+							<div>
+								<p className="font-medium text-white">
+									{token.token0.symbol}/{token.token1.symbol}
+								</p>
+								<p className="text-xs text-gray-400">{token.baseToken?.name}</p>
+							</div>
+						</div>
+						<div className="text-right">
+							<p className="font-semibold text-sm">
+								${parseFloat(token.priceUsd).toFixed(4)}
+							</p>
+							<p
+								className={`text-xs ${
+									parseFloat(token.priceChange.h24) >= 0
+										? "text-green-500"
+										: "text-red-500"
+								}`}>
+								{parseFloat(token.priceChange.h24).toFixed(2)}%
+							</p>
+						</div>
 					</li>
 				))}
 			</ul>
