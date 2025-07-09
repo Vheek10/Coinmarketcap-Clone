@@ -11,3 +11,14 @@
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
+
+/* Smooth aspect-ratio transitions */
+.aspect-square {
+	transition: aspect-ratio 0.2s ease;
+}
+
+/* Card hover effects */
+.bg-base-200:hover {
+	@apply shadow-md;
+	transform: translateY(-1px);
+}

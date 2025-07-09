@@ -1,65 +1,65 @@
 /** @format */
-
-// components/StatsSection.tsx
 "use client";
 
 import { useEffect, useState } from "react";
-import TrendingCoins from "./TrendingCoins";
-import DexScreenerTrending from "./DexScreenerTrending";
 import StatCard from "./StatCard";
 
 export default function StatsSection() {
-	const [data, setData] = useState({
-		marketCap: "$3.37T",
-		marketCapChange: "1.17%",
-		cmc100: "$207.55",
-		cmcChange: "1.10%",
-		altcoinIndex: "23",
-		fearGreed: "52",
+	const [marketData, setMarketData] = useState({
+		cap: "...",
+		capChange: "...",
+		btcPrice: "...",
+		fearGreed: { value: "...", classification: "..." },
 	});
 
-	useEffect(() => {
-		// You can fetch real API data here and update `setData`
-	}, []);
+	// ... (keep your existing useEffect and data fetching logic)
 
 	return (
-		<div className="px-4 py-6 space-y-4">
-			{/* Top row */}
-			<div className="hidden md:flex gap-4">
-				<div className="w-1/2">
-					<TrendingCoins />
+		<section className="px-2 py-3">
+			{/* Compact Bento Grid */}
+			<div className="grid grid-cols-2 md:grid-cols-4 gap-2 w-full">
+				{/* Row 1 */}
+				<div className="h-28">
+					{" "}
+					{/* Fixed height instead of aspect-square */}
+					<StatCard
+						title="Market Cap"
+						value={marketData.cap}
+						subtext={marketData.capChange}
+						trend={marketData.capChange.startsWith("-") ? "down" : "up"}
+						compact
+					/>
 				</div>
-				<div className="w-1/2">
-					<DexScreenerTrending />
-				</div>
-			</div>
 
-			{/* Bento grid */}
-			<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 rounded-lg overflow-hidden border border-base-300">
-				<StatCard
-					title="Market Cap"
-					value={data.marketCap}
-					subtext={data.marketCapChange}
-					className="border-b border-r border-base-300"
-				/>
-				<StatCard
-					title="CMC100"
-					value={data.cmc100}
-					subtext={data.cmcChange}
-					className="border-b border-base-300"
-				/>
-				<StatCard
-					title="Altcoin Index"
-					value={data.altcoinIndex}
-					subtext="/100"
-					className="border-r border-base-300"
-				/>
-				<StatCard
-					title="Fear & Greed"
-					value={data.fearGreed}
-					subtext="Neutral"
-				/>
+				<div className="h-28">
+					<StatCard
+						title="BTC Price"
+						value={marketData.btcPrice}
+						compact
+					/>
+				</div>
+
+				{/* Row 2 */}
+				<div className="h-28">
+					<StatCard
+						title="Alt Index"
+						value="38/100"
+						subtext="Neutral"
+						trend="neutral"
+						compact
+					/>
+				</div>
+
+				<div className="h-28">
+					<StatCard
+						title="F&G Index"
+						value={marketData.fearGreed.value}
+						subtext={marketData.fearGreed.classification}
+						trend={Number(marketData.fearGreed.value) > 50 ? "up" : "down"}
+						compact
+					/>
+				</div>
 			</div>
-		</div>
+		</section>
 	);
 }
